@@ -13,11 +13,14 @@ import android.util.Log;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener{
 
+    private boolean shuffle=false;
+    private Random rand;
     //media player
     private MediaPlayer player;
     //song list
@@ -76,10 +79,18 @@ public class MusicService extends Service implements
     }
 
     public void onCreate(){
+
+        rand = new Random();
         super.onCreate();
         songPosn=0;
         player = new MediaPlayer();
         initMusicPlayer();
+    }
+
+    public void setShuffle()
+    {
+        if (shuffle) shuffle = false;
+        else shuffle = true;
     }
 
     public void initMusicPlayer(){
@@ -138,10 +149,26 @@ public class MusicService extends Service implements
 
     //skip to next
     public void playNext(){
+        if (shuffle)
+        {
+            int newSong = songPosn;
+            while(newSong == songPosn)
+            {
+                newSong = rand.nextInt(songs.size());
+             }
+        songPosn = newSong;
+    }
+  else{
+        songPosn++;
+        if(songPosn>=songs.size()) songPosn=0;
+    }
+    playSong();
+}
+       /* }
         songPosn++;
         if(songPosn>=songs.size()) songPosn=0;
         playSong();
-    }
+    }*/
 
 
 }

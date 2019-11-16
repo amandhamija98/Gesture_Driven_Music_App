@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MainActivity extends AppCompatActivity implements MediaPlayerControl{
+public class  MainActivity extends AppCompatActivity implements MediaPlayerControl{
     private ArrayList<song> songList;
     private ListView songView ;
     private MusicService musicSrv;
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
         //menu item selected
         switch (item.getItemId()) {
             case R.id.action_shuffle:
-                //shuffle
+                musicSrv.setShuffle();
                 break;
             case R.id.action_end:
                 stopService(playIntent);
@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
             while (musicCursor.moveToNext());
         }
     }
-
     @Override
     protected void onDestroy() {
         stopService(playIntent);
